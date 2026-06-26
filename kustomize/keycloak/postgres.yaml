@@ -1,10 +1,11 @@
-apiVersion: postgres-operator.crunchydata.com/v1beta1
+apiVersion: postgres-operator.crunchydata.com/v1
 kind: PostgresCluster
 metadata:
   name: keycloakdb
+  annotations:
+    postgres-operator.crunchydata.com/autoCreateUserSchema: "true"
 spec:
-  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-15.5-0
-  postgresVersion: 15
+  postgresVersion: 18
   instances:
     - replicas: 2
       dataVolumeClaimSpec:
@@ -25,7 +26,6 @@ spec:
                   postgres-operator.crunchydata.com/instance-set: "00"
   backups:
     pgbackrest:
-      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.47-2
       repos:
       - name: repo1
         volume:
